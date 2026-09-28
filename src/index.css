@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@layer base {
+  :root,
+  html.dark {
+    --bg-main: #0a0d14;
+    --bg-surface: #111622;
+    --bg-surface-elevated: #182030;
+    --border-hairline: rgba(255, 255, 255, 0.12);
+    --border-hairline-subtle: rgba(255, 255, 255, 0.06);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-primary: #6366f1; /* Electric Indigo */
+    --accent-hover: #4f46e5;
+    --accent-copper: #e05d44; /* Muted Copper */
+    color-scheme: dark;
+  }
+
+  html.light {
+    --bg-main: #faf9f6;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #f1ede6;
+    --border-hairline: rgba(15, 23, 42, 0.12);
+    --border-hairline-subtle: rgba(15, 23, 42, 0.06);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent-primary: #4f46e5;
+    --accent-hover: #4338ca;
+    --accent-copper: #c84d3d;
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .font-display {
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.035em;
+  }
+}
+
+/* Editorial Hairlines */
+.editorial-border-t {
+  border-top: 1px solid var(--border-hairline);
+}
+
+.editorial-border-b {
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.editorial-border {
+  border: 1px solid var(--border-hairline);
+}
+
+/* Editorial Section Heading */
+.section-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+}
+
+.section-headline span {
+  opacity: 0.55;
+  font-weight: 500;
+}
+
+/* Minimalist Card */
+.editorial-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.25s ease;
+}
+
+.editorial-card:hover {
+  border-color: rgba(99, 102, 241, 0.45);
+}
+
+/* Minimal Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.6);
+}
+
+/* Print styles for Resume */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  
+  header, footer, nav, button {
+    display: none !important;
+  }
+  
+  #printable-resume {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+  }
+}
