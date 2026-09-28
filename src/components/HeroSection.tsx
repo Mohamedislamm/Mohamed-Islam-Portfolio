@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CANDIDATE_INFO } from '../data/portfolioData';
-import { ArrowDown, Terminal, Copy, Check, FileText, Activity, Cpu, Database, Network, Play } from 'lucide-react';
+import { ArrowDown, Terminal, FileText, ArrowRight } from 'lucide-react';
 
 interface HeroSectionProps {
   onOpenResume: () => void;
@@ -8,10 +8,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
   const [copiedCmd, setCopiedCmd] = useState(false);
-  const [activeArchMode, setActiveArchMode] = useState<'agent' | 'rag' | 'adk'>('agent');
-  const [activeNode, setActiveNode] = useState<number>(1);
-  const [isSimulating, setIsSimulating] = useState<boolean>(false);
-  const [pingCount, setPingCount] = useState<number>(24);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleCopyCli = () => {
     navigator.clipboard.writeText('npx mohamed-islamm-showcase');
@@ -24,41 +21,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Automated gentle pulse for architecture node
+  // Subtle cyclic animation for pipeline flow
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveNode((prev) => (prev % 4) + 1);
-      setPingCount((prev) => 20 + Math.floor(Math.random() * 12));
-    }, 2800);
-    return () => clearInterval(interval);
+    const timer = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 3);
+    }, 2400);
+    return () => clearInterval(timer);
   }, []);
 
-  const triggerSimulation = () => {
-    setIsSimulating(true);
-    let step = 1;
-    setActiveNode(step);
-    const simInterval = setInterval(() => {
-      step += 1;
-      if (step > 4) {
-        clearInterval(simInterval);
-        setIsSimulating(false);
-        setActiveNode(4);
-      } else {
-        setActiveNode(step);
-      }
-    }, 450);
-  };
-
-  const archModes = [
-    { id: 'agent', label: 'Autonomous CUA' },
-    { id: 'adk', label: 'Google ADK' },
-    { id: 'rag', label: 'Vector RAG' },
+  const pipelineStages = [
+    { label: 'Perception', desc: 'Screen / Data Stream' },
+    { label: 'Agent Core', desc: 'LLM Reasoning & RAG' },
+    { label: 'Sandbox', desc: 'Verified Execution' },
   ];
 
   return (
     <section id="top" className="section-anchor max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 grid lg:grid-cols-[1.1fr_.9fr] items-center gap-12 lg:gap-14">
       
-      {/* Left Column: Name, Role Bio, Work CTA, and Social Logos + Resume cluster */}
+      {/* Left Column: Heading, Role, Value Proposition & Action Links */}
       <div className="space-y-8">
         
         {/* Massive Bold Split Display Heading */}
@@ -69,17 +49,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
           </h1>
         </div>
 
-        {/* Role & Editorial Bio */}
-        <div className="max-w-[500px] space-y-4 text-[15px] sm:text-[16px] leading-7 text-[var(--text-secondary)]">
+        {/* Role & Concise Value Proposition */}
+        <div className="max-w-[500px] space-y-3.5 text-[15px] sm:text-[16px] leading-7 text-[var(--text-secondary)]">
           <strong className="font-mono block text-[11px] sm:text-[12px] uppercase tracking-[.18em] text-[var(--text-primary)]">
             AI / ML ENGINEER & FRONTEND DEVELOPER
           </strong>
           <p>
-            Building enterprise autonomous AI systems, vector retrieval (RAG) pipelines, and fast responsive web applications using Python, React, FastAPI, and Docker.
+            Building autonomous AI agents, production RAG pipelines, and high-performance web systems using Python, React, and FastAPI.
           </p>
         </div>
 
-        {/* Action & Social Cluster: Work CTA + GitHub Logo + LinkedIn Logo + Resume Button right next to them */}
+        {/* Action & Social Cluster: Work CTA + GitHub + LinkedIn + Resume */}
         <div className="flex flex-wrap items-center gap-3 pt-1">
           {/* Work Button */}
           <button
@@ -136,179 +116,81 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
 
       </div>
 
-      {/* Right Column: COOLER SYSTEM ARCHITECTURE CONSOLE */}
+      {/* Right Column: CLEAN & MINIMAL SYSTEM ARCHITECTURE */}
       <div className="relative">
-        <div className="editorial-card p-5 sm:p-6 rounded-lg space-y-5 shadow-sm">
+        <div className="editorial-card p-6 sm:p-7 rounded-xl space-y-6 shadow-sm">
           
-          {/* Header & Status */}
-          <div className="flex items-center justify-between pb-3.5 border-b border-current/10 text-xs font-mono">
-            <div className="flex items-center gap-2">
-              <Activity className="h-4 w-4 text-indigo-500" />
-              <span className="font-bold tracking-wider text-[var(--text-primary)]">SYSTEM ARCHITECTURE</span>
-            </div>
-            
+          {/* Header & Status Indicator */}
+          <div className="flex items-center justify-between pb-4 border-b border-current/10 font-mono text-xs">
+            <span className="font-bold tracking-wider text-[var(--text-primary)]">
+              SYSTEM ARCHITECTURE
+            </span>
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider">
-                {pingCount}ms · Active
-              </span>
+              <span className="text-[11px] text-emerald-500 font-medium">Online</span>
             </div>
           </div>
 
-          {/* Architecture Pipeline Selector Tabs */}
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1 p-0.5 rounded bg-[var(--bg-main)] editorial-border text-[10px] font-mono">
-              {archModes.map((mode) => (
-                <button
-                  key={mode.id}
-                  onClick={() => setActiveArchMode(mode.id as any)}
-                  className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                    activeArchMode === mode.id
-                      ? 'bg-indigo-600 text-white font-bold'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+          {/* Minimal 3-Stage Pipeline Flow */}
+          <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-2 text-center font-mono">
+              {pipelineStages.map((stage, idx) => (
+                <div
+                  key={stage.label}
+                  className={`p-3 rounded-lg border transition-all duration-300 ${
+                    activeStep === idx
+                      ? 'border-indigo-500 bg-indigo-500/10 text-[var(--text-primary)] shadow-xs scale-[1.02]'
+                      : 'border-current/10 bg-[var(--bg-main)] text-[var(--text-secondary)] opacity-80'
                   }`}
                 >
-                  {mode.label}
-                </button>
+                  <div className="text-[10px] font-bold text-indigo-400 mb-1">0{idx + 1}</div>
+                  <div className="text-xs font-semibold truncate text-[var(--text-primary)]">{stage.label}</div>
+                  <div className="text-[10px] opacity-60 truncate mt-0.5">{stage.desc}</div>
+                </div>
               ))}
             </div>
 
-            {/* Signal Pulse Trigger */}
-            <button
-              onClick={triggerSimulation}
-              disabled={isSimulating}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded editorial-border text-[10px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer disabled:opacity-50"
-              title="Test packet trace"
-            >
-              <Play className={`h-2.5 w-2.5 ${isSimulating ? 'text-indigo-400 animate-spin' : ''}`} />
-              <span>Trace Flow</span>
-            </button>
+            {/* Connecting Flow Indicator */}
+            <div className="flex items-center justify-center gap-2 text-[10px] font-mono text-[var(--text-secondary)] opacity-60 pt-1">
+              <span>Perception</span>
+              <ArrowRight className="h-3 w-3" />
+              <span>Reasoning</span>
+              <ArrowRight className="h-3 w-3" />
+              <span>Action</span>
+            </div>
           </div>
 
-          {/* DYNAMIC COOL ARCHITECTURE SCHEMATIC DIAGRAM */}
-          <div className="p-3.5 rounded bg-[var(--bg-main)] editorial-border space-y-3 font-mono text-xs">
-            
-            {/* Visual Node Flow Grid */}
-            <div className="grid grid-cols-4 gap-1.5 text-center text-[10px]">
-              
-              {/* Node 1: Ingestion / Perception */}
-              <div 
-                className={`p-2 rounded border transition-all ${
-                  activeNode === 1 
-                    ? 'border-indigo-500 bg-indigo-500/10 text-[var(--text-primary)] font-bold shadow-xs' 
-                    : 'border-current/10 text-[var(--text-secondary)] opacity-75'
-                }`}
-              >
-                <div className="text-indigo-400 font-bold mb-0.5">01</div>
-                <div className="truncate">Perception</div>
-                <div className="text-[9px] opacity-60 truncate">
-                  {activeArchMode === 'agent' ? 'Desktop OCR' : activeArchMode === 'adk' ? 'Session In' : 'Query Embed'}
-                </div>
-              </div>
-
-              {/* Node 2: Reasoning Core */}
-              <div 
-                className={`p-2 rounded border transition-all ${
-                  activeNode === 2 
-                    ? 'border-indigo-500 bg-indigo-500/10 text-[var(--text-primary)] font-bold shadow-xs' 
-                    : 'border-current/10 text-[var(--text-secondary)] opacity-75'
-                }`}
-              >
-                <div className="text-indigo-400 font-bold mb-0.5">02</div>
-                <div className="truncate">Reasoning</div>
-                <div className="text-[9px] opacity-60 truncate">
-                  {activeArchMode === 'agent' ? 'Claude 3.5' : activeArchMode === 'adk' ? 'Gemini 2.5' : 'DBSCAN Rerank'}
-                </div>
-              </div>
-
-              {/* Node 3: Execution / Tool Sandbox */}
-              <div 
-                className={`p-2 rounded border transition-all ${
-                  activeNode === 3 
-                    ? 'border-indigo-500 bg-indigo-500/10 text-[var(--text-primary)] font-bold shadow-xs' 
-                    : 'border-current/10 text-[var(--text-secondary)] opacity-75'
-                }`}
-              >
-                <div className="text-indigo-400 font-bold mb-0.5">03</div>
-                <div className="truncate">Execution</div>
-                <div className="text-[9px] opacity-60 truncate">
-                  {activeArchMode === 'agent' ? 'Docker CUA' : activeArchMode === 'adk' ? 'Tool Runner' : 'Context Merge'}
-                </div>
-              </div>
-
-              {/* Node 4: Verification & State */}
-              <div 
-                className={`p-2 rounded border transition-all ${
-                  activeNode === 4 
-                    ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400 font-bold shadow-xs' 
-                    : 'border-current/10 text-[var(--text-secondary)] opacity-75'
-                }`}
-              >
-                <div className="text-emerald-400 font-bold mb-0.5">04</div>
-                <div className="truncate">Telemetry</div>
-                <div className="text-[9px] opacity-60 truncate">State Sync</div>
-              </div>
-
+          {/* Clean Metric Baseline */}
+          <div className="grid grid-cols-3 gap-3 pt-1 border-t border-current/10 font-mono text-center">
+            <div className="p-2 rounded bg-[var(--bg-main)] editorial-border">
+              <div className="text-[9px] uppercase tracking-wider text-[var(--text-secondary)] opacity-70">Latency</div>
+              <div className="text-xs font-bold text-[var(--text-primary)] mt-0.5">~24ms</div>
             </div>
-
-            {/* Active Pipeline Telemetry Details */}
-            <div className="p-2.5 rounded bg-[var(--bg-surface)] border border-current/10 text-[11px] space-y-1.5">
-              <div className="flex justify-between items-center text-[10px] text-[var(--text-secondary)]">
-                <span className="uppercase font-semibold tracking-wider text-indigo-400">
-                  {activeArchMode === 'agent' && 'Pipeline: Notive Autonomous CUA'}
-                  {activeArchMode === 'adk' && 'Pipeline: Google ADK Multi-Turn Engine'}
-                  {activeArchMode === 'rag' && 'Pipeline: Dense Vector & Clustering Retrieval'}
-                </span>
-                <span className="text-emerald-400 font-bold">99.8% Ground Truth</span>
-              </div>
-              
-              <div className="text-[var(--text-secondary)] text-[11px] leading-relaxed">
-                {activeArchMode === 'agent' && (
-                  <span>
-                    Closed-loop screen perception with Claude 3.5 Sonnet executing verified OS keystrokes inside an isolated Docker container.
-                  </span>
-                )}
-                {activeArchMode === 'adk' && (
-                  <span>
-                    Stateful multi-agent workflows using Google ADK with Gemini 2.5 Flash and in-memory persistent turn orchestration.
-                  </span>
-                )}
-                {activeArchMode === 'rag' && (
-                  <span>
-                    High-dimensional text embeddings clustered via DBSCAN to eliminate hallucinated context and accelerate nearest-neighbor lookups.
-                  </span>
-                )}
-              </div>
+            <div className="p-2 rounded bg-[var(--bg-main)] editorial-border">
+              <div className="text-[9px] uppercase tracking-wider text-[var(--text-secondary)] opacity-70">Precision</div>
+              <div className="text-xs font-bold text-emerald-400 mt-0.5">99.8%</div>
             </div>
-
-            {/* Architecture Spec Attributes */}
-            <div className="grid grid-cols-2 gap-2 text-[10px] text-[var(--text-secondary)] pt-1">
-              <div className="flex justify-between p-1.5 rounded bg-[var(--bg-surface)] border border-current/10">
-                <span>RUNTIME:</span>
-                <span className="font-bold text-[var(--text-primary)]">Python 3.11 / FastAPI</span>
-              </div>
-              <div className="flex justify-between p-1.5 rounded bg-[var(--bg-surface)] border border-current/10">
-                <span>SANDBOX:</span>
-                <span className="font-bold text-[var(--text-primary)]">Docker Alpine Linux</span>
-              </div>
+            <div className="p-2 rounded bg-[var(--bg-main)] editorial-border">
+              <div className="text-[9px] uppercase tracking-wider text-[var(--text-secondary)] opacity-70">Sandbox</div>
+              <div className="text-xs font-bold text-indigo-400 mt-0.5">Docker</div>
             </div>
-
           </div>
 
-          {/* Terminal Quick Runner with instant copy */}
+          {/* Terminal Quick Runner with one-click copy */}
           <div className="pt-1">
-            <div className="flex items-center justify-between p-2.5 rounded bg-[var(--bg-main)] editorial-border text-[11px] font-mono">
+            <div className="flex items-center justify-between p-2.5 rounded-lg bg-[var(--bg-main)] editorial-border text-[11px] font-mono">
               <div className="flex items-center gap-2 text-[var(--text-secondary)] overflow-hidden">
                 <Terminal className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
                 <span className="text-slate-500">$</span>
-                <span className="text-[var(--text-primary)] truncate font-semibold">npx mohamed-islamm-showcase</span>
+                <span className="text-[var(--text-primary)] truncate font-medium">npx mohamed-islamm-showcase</span>
               </div>
               <button
+                type="button"
                 onClick={handleCopyCli}
-                className="ml-2 px-2.5 py-1 rounded text-[10px] uppercase font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-current/10 transition-colors cursor-pointer"
+                className="ml-2 px-2.5 py-1 rounded text-[10px] uppercase font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-current/10 transition-colors cursor-pointer shrink-0"
                 title="Copy Command"
               >
                 {copiedCmd ? <span className="text-emerald-400 font-bold">Copied</span> : 'Copy'}
