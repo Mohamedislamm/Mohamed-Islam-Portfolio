@@ -1,4 +1,5 @@
 # Mohamed Islam Khaled — Portfolio & Systems
+https://mohamedislamm.github.io/Mohamed-Islam-Portfolio/
 
 Personal portfolio and engineering showcase of **Mohamed Islam Khaled**, AI/ML Engineer & Frontend Developer. Built with React 19, TypeScript, and Tailwind CSS.
 
